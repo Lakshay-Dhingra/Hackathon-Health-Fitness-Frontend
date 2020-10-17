@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {Route,Switch,Redirect,withRouter} from 'react-router-dom'
 
 import { connect } from 'react-redux';
 import {actions} from 'react-redux-form'
 import{TransitionGroup,CSSTransition} from 'react-transition-group'
 import Header from './HeaderComponent'
+import Home from './HomeComponent'
 const mapDispatchToProps=(dispatch)=>({})
 const mapStateToProps=(state)=>{return{}}
 class Main extends Component {
@@ -16,22 +17,24 @@ class Main extends Component {
     //   this.props.fetchLeaders()
     //   this.props.fetchFavorites();
     }
-    
-    render() {
-      // console.log(this.props.availableUName('admin'))
-      // console.log(this.props.login)
-      const HomePage=()=>{
-        return(
-        //   <Home
-        //   />
-        <div/>
-        )
-      }
+
+    render(){
+      return(
+        <div>
+          <Header/>
+          <Home/>
+        </div>
+      )
+    }
+    renderHome() {
+      
   
       return (
         <div>
           <Header/>
+          <Home/>
         </div>
+        
       );
     }
   }
