@@ -6,7 +6,12 @@ import {actions} from 'react-redux-form'
 import{TransitionGroup,CSSTransition} from 'react-transition-group'
 import Header from './HeaderComponent'
 import Home from './HomeComponent'
-const mapDispatchToProps=(dispatch)=>({})
+import { login, logout, register } from '../redux/ActionCreator';
+const mapDispatchToProps=(dispatch)=>({
+  login:(username,password)=>(dispatch(login(username,password))),
+  logout:()=>(dispatch(logout())),
+  register:(username,password)=>(dispatch(register(username,password)))
+})
 const mapStateToProps=(state)=>{return{}}
 class Main extends Component {
     //will called every time after this component is re rendered
@@ -16,6 +21,13 @@ class Main extends Component {
     //   this.props.fetchPromos();
     //   this.props.fetchLeaders()
     //   this.props.fetchFavorites();
+    this.props.login('devanshgl55@gmail.com','qwertypopo')
+    // .then(res=>alert(res),err=>{alert('error');alert(err)})
+    .then(res=>{
+      console.log(res)
+    },err=>{
+      console.log(err)
+    })
     }
 
     render(){

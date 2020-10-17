@@ -5,10 +5,11 @@ import { createStore, combineReducers ,applyMiddleware} from 'redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 
+import {Auth} from './Auth'
+
 export const ConfigStore=()=>{
     const store=createStore(combineReducers({
-        //Dishes,Leaders,Promotions,Comments are seperate reducers for each.
-        
+        Auth:Auth
     }),applyMiddleware(thunk,
         logger 
         //used to log prev state action next state.
