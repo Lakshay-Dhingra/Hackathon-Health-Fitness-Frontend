@@ -12,7 +12,7 @@ html
 
 header::before
 {
-    background-image: url("../public/images/main_bg.jpg");
+    background-image: url("./images/main_bg.jpg");
     /* url('../images/main_bg.jpg'); */
     background-repeat: no-repeat;
     background-size: cover;
