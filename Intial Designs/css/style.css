@@ -79,7 +79,6 @@ header::before
     height:90vh;
     padding:2vh 1vw;
 }
-
 #features_section .jumbotron
 {
     background: none;
@@ -99,6 +98,13 @@ header::before
 }
 
 /* For Responsiveness */
+@media only screen and (min-width: 992px)
+{
+    #features_section #feature_image
+    {
+        padding-right:3vw;
+    }
+}
 @media only screen and (max-width: 992px)
 {
     #main_navbar .navbar-nav button
@@ -107,18 +113,11 @@ header::before
     }
     .main_section .jumbotron h1
     {
-        font-size: 2em;
+        font-size: 2.2em;
     }
     .main_section .jumbotron p
     {
         font-size: 1.5em;
-    }
-}
-@media only screen and (max-width: 576px)
-{
-    #main_navbar .navbar-nav button
-    {
-        margin-left:-2.5vw;
     }
     #features_section .feature
     {
@@ -127,5 +126,12 @@ header::before
     #features_section #feature_text
     {
         order:-1;
+    }
+}
+@media only screen and (max-width: 576px)
+{
+    #main_navbar .navbar-nav button
+    {
+        margin-left:-2.5vw;
     }
 }
