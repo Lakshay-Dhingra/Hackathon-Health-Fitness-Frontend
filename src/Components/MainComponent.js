@@ -6,36 +6,74 @@ import {actions} from 'react-redux-form'
 // import{TransitionGroup,CSSTransition} from 'react-transition-group'
 import Header from './HeaderComponent'
 import Home from './HomeComponent'
-import { login, logout, register } from '../redux/ActionCreator';
+import { login, logout, register, x } from '../redux/ActionCreator';
 
 import Profile from './ProfileComponent';
+import { Button } from 'reactstrap';
 const mapDispatchToProps=(dispatch)=>({
   login:(username,password)=>(dispatch(login(username,password))),
   logout:()=>(dispatch(logout())),
-  register:(username,password)=>(dispatch(register(username,password)))
+  register:(username,password)=>(dispatch(register(username,password))),
+  x:()=>(dispatch(x()))
 })
-const mapStateToProps=(state)=>{return{}}
+const mapStateToProps=(state)=>{return{
+  Auth:state.Auth
+}}
 class Main extends Component {
-    //will called every time after this component is re rendered
-    componentDidMount(){
-    //   this.props.fetchDishes();
-    //   this.props.fetchComments();
-    //   this.props.fetchPromos();
-    //   this.props.fetchLeaders()
-    //   this.props.fetchFavorites();
-    this.props.login('devanshgl55@gmail.com','qwertypopo')
-    // .then(res=>alert(res),err=>{alert('error');alert(err)})
+    constructor(props){
+      super(props);
+      this.login=this.login.bind(this)
+      this.logout=this.logout.bind(this)
+      this.get=this.get.bind(this)
+      this.state={
+        response:"asdf",
+        r2:'sd'
+      }
+    }
+    login(){
+      this.props.login('devanshgl55@gmail.com','qwertypopo')
+      .then(res=>{
+        this.setState({response:res})
+        // console.log(this.state.response)
+        console.log(res)
+      },err=>{
+        alert(err)
+        console.log(err)
+      })
+    }
+    logout(){
+
+    this.props.logout()
     .then(res=>{
       console.log(res)
     },err=>{
       console.log(err)
     })
     }
+    get(){
 
+    this.props.x()
+    .then(res=>{
+      console.log(res)
+    },err=>{
+      console.log(err)
+    })
+    }
     render(){
+      // console.log(this.props.Auth)
+      return(
+        <Fragment>
+          {/* {this.props.Auth.user?this.props.Auth.user.email:''} */}
+          <Button onClick={this.login}>Login</Button>
+          <Button onClick={this.logout}>Logout</Button>
+          <Button onClick={this.get}>show user</Button>
+        </Fragment>
+      )
+    }
+    renderProfile(){
       return(
         <div>
-          <Header/>
+          <Header login={this.props.login}/>
           <Profile/>
         </div>
       )

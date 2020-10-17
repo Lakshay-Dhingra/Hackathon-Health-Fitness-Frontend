@@ -272,7 +272,7 @@ const RegisterForm=(props)=>{
                     <Row className='form-group'>
                         <Col>
                             <Label htmlFor='Username'>Username</Label>
-                            <Control.text model='.username' id='username' name='username'
+                            <Control type='text' model='.username' id='username' name='username'
                                 placeholder='Username' className='form-control'
                                 required
                                 asyncValidators={{

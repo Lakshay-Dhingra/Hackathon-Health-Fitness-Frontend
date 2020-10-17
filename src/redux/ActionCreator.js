@@ -44,19 +44,19 @@ const AuthHeader=()=>{
         auth["authorization"]=`Bearer ${cookie.load('accessToken')}`
     return auth;
 }
-const refreshToken=()=>{
+const getrefreshToken=()=>{
     const body={}
-    if(cookie.load('accessToken'))
+    if(cookie.load('refreshToken'))
         body["refreshToken"]=`${cookie.load('refreshToken')}`
     return body;
 }
 const saveCookie=(accesskey,refreshkey)=>{    
-    cookie.save('accesstoken',accesskey,{secure:true,expire:new Date(new Date().getTime()+7*3600*1000)});
-    cookie.save('refreshtoken',refreshToken,{secure:true,expire:new Date(new Date().getTime()+24*3600*1000)});
+    cookie.save('accessToken',accesskey,{secure:true,expire:new Date(new Date().getTime()+7*3600*1000)});
+    cookie.save('refreshToken',refreshkey,{secure:true,expire:new Date(new Date().getTime()+24*3600*1000)});
 }
 const destroyCookie=()=>{
-    cookie.remove('accesstoken')
-    cookie.remove('refreshtoken')
+    cookie.remove('accessToken')
+    cookie.remove('refreshToken')
 }
 const handleResponse=(response)=>{
     return new Promise((resolve,reject)=>{
@@ -71,8 +71,8 @@ const handleResponse=(response)=>{
 const handleTokenExpire=(err,dispatch,next)=>{
     let errMsg=resolveError(err)
     if(errMsg==='Retry')
-        dispatch(RefreshToken())
-        .then((res)=>dispatch(next())
+        return (RefreshToken())
+        .then((res)=>(next())
         ,err=>{
             destroyCookie()
             return 'You are logged out.Please try again'
@@ -80,6 +80,30 @@ const handleTokenExpire=(err,dispatch,next)=>{
     else
         return errMsg;
 }
+const RefreshToken=()=>{
+    return fetch(BaseUrl+'users/refresh',{
+        method:'POST',
+        body:JSON.stringify(getrefreshToken()),
+        headers:AuthHeader()
+    })
+    .then(response=>handleResponse(response))
+    .then((res)=>{
+        destroyCookie()
+        saveCookie(res.accessToken,res.refreshToken)
+        return true;
+    },(err)=>{
+        destroyCookie()
+        return resolveError(err)
+    })
+}
+const loginAction = (user) => ({
+    type: ActionTypes.LOGIN,
+    payload: user
+});
+const logoutAction = ()=>({
+    type: ActionTypes.LOGOUT,
+    payload:{}
+})
 export const login=(username,password)=>(dispatch)=>{
     return fetch(BaseUrl+'users/login',{
         method:'POST',
@@ -91,39 +115,53 @@ export const login=(username,password)=>(dispatch)=>{
     .then((res)=>{
         destroyCookie()
         saveCookie(res.accesstoken,res.refreshtoken)
+        dispatch(loginAction(res.User))
         return 'Logged in';        
     },(err)=>{
         return resolveError(err)
     })
 }
 export const logout=()=>(dispatch)=>{
-    return fetch(BaseUrl+'users/login')
+    return fetch(BaseUrl+'users/logout',{
+        method:'DELETE',
+        headers:AuthHeader(),
+        body:JSON.stringify(getrefreshToken())
+    })
     .then(response=>handleResponse(response))
     .then((res)=>{
         destroyCookie()
+        dispatch(logoutAction(res.User))
         return res.status
     },err=>handleTokenExpire(err))
 }
 export const register=(username,password)=>(dispatch)=>{
-    return fetch(BaseUrl+'users/register')
-    .then(response=>handleResponse(response))
-    .then((res)=>{
-        destroyCookie()
-        return res.status
-    },err=>handleTokenExpire(err))
-}
-const RefreshToken=()=>{
-    return fetch(BaseUrl+'/users/login',{
+    return fetch(BaseUrl+'users/register',{
         method:'POST',
-        body:JSON.stringify(refreshToken())
+        body:JSON.stringify({username:username,password:password}),
+        headers:AuthHeader(),
+        credentials:'include'
     })
     .then(response=>handleResponse(response))
     .then((res)=>{
-        destroyCookie()
-        saveCookie(res.accessToken,res.refreshToken)
-        return true;
+        return res.status;        
     },(err)=>{
-        destroyCookie()
         return resolveError(err)
     })
+}
+export const x=()=>(dispatch)=>{
+    return fetch(BaseUrl+'users/',{
+        method:'GET',
+        headers:AuthHeader()
+    })
+    .then(response=>handleResponse(response))
+    .then((res)=>{
+        return res
+    },err=>{
+        let e=handleTokenExpire(err,dispatch,x)
+        if(e instanceof Promise)
+            return e.then(res=>res)
+        else
+            return e
+    })
+    .then(res=>res)
 }

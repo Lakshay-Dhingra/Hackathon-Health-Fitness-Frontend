@@ -1,0 +1,142 @@
+const FormElement=({type,name,label,dish})=>{
+    return(
+        <Row className='form-group'>
+            <Col>
+                <Label htmlFor={name}>{label}</Label>
+                <Control.text type={type} model={`.${name}`} id={name} name={name}
+                    placeholder={name} className='form-control' value={dish[name]}
+                    onChange={(e)=>dish[name]=e.target.value}
+                    required
+                />
+            </Col>
+        </Row>
+    )
+}
+
+<Modal isOpen={this.props.modal} 
+            toggle={()=>this.props.toggleModal()}
+            >
+                <ModalHeader>Edit/Add Dish</ModalHeader>
+                <ModalBody>
+                    <LocalForm
+                    onSubmit={(values,e)=>{
+                                if(!values.image && !this.state.image)
+                                    alert('Please select a image')
+                                else{
+                                    this.props.handleDish(values,this.state)
+                                    this.props.toggleModal('editComment')
+                                }
+                                e.preventDefault();
+                            }
+                        }>
+                        <Row className='form-group'>
+                            <Col>                                
+                                <Label htmlFor="image">Images:</Label>
+                                <Control.file model='.image' id='image' name='image'
+                                    onChange={(e)=>{this.handleChange(e);this.setState({file:URL.createObjectURL(e.target.files[0])})}} 
+                                />
+                                <img style={{height:"100px",width:'100px'}} src={this.state.file} alt='preview dish'/>
+                            </Col>
+                        </Row>
+                        <FormElement name='name' label='Name:' dish={this.state}/>                            
+                        <FormElement name='category' label='Category:' dish={this.state}/> 
+                        <Row className='form-group'>
+                            <Col>
+                                <Label htmlFor={'price'}>Price: &#8377;</Label>
+                                <Control.text type='number' min={0} model={`.${'price'}`} id={'price'} name={'price'}
+                                    placeholder={'price'} className='form-control' value={this.state['price']}
+                                    onChange={(e)=>this.setState({'price':e.target.value})}
+                                    required
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='form-group'>
+                            <Col>
+                                Featured:&nbsp;
+                                <Label htmlFor="featured">Yes</Label>&nbsp;
+                                <Control type='radio' model='.featured' id='featured' name='featured'
+                                    value={true}
+                                    checked={this.state.featured===true}
+                                    onChange={()=>this.setState({featured:true})}
+                                />&nbsp;&nbsp;
+                                <Label htmlFor="featured2">No</Label>&nbsp;
+                                <Control type='radio' model='.featured' id='featured2' name='featured'
+                                    value={false} 
+                                    checked={this.state.featured===false}
+                                    onChange={()=>this.setState({featured:false})}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='form-group'>
+                            <Col>                                
+                                <Label htmlFor="description">Description:</Label>
+                                <Control.textarea model='.description' id='description' name='description' 
+                                    required 
+                                    value={this.state.description}
+                                    onChange={this.handleChange}
+                                    className='form-control' 
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button type="submit" color="primary">
+                                    Add/Edit Dish
+                                </Button>
+                            </Col>
+                        </Row>
+                    </LocalForm>
+                </ModalBody>
+            </Modal>
+        )
+    }
+
+
+<div>
+                <Navbar dark expand="md">
+                    <div className="container">
+                        <NavbarToggler onClick={this.toggleNav} />
+                        <NavbarBrand className="mr-auto" href="/home">
+                        <img src='assets/images/logo.jpeg' height="30" width="41" alt='Restaurant Blue Grass' /></NavbarBrand>
+                        <Collapse isOpen={this.state.isNavOpen} navbar>
+                            <Nav navbar>
+                            <NavItem>
+                                <NavLink className="nav-link"  to='/home'><span className="fa fa-home fa-lg"></span> Home</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About Us</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link"  to='/menu'><span className="fa fa-list fa-lg"></span> Menu</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link" to="/favorites"><span className="fa fa-heart fa-lg"></span> My Favorites</NavLink>
+                            </NavItem>
+                            </Nav>
+                            <Nav className='ml-auto' navbar>
+                                <LoginButton loginState={this.props.loginState} logout={this.props.logout} toggleModal={this.toggleModal} handleLogout={this.handleLogout}/>    
+                            </Nav>
+                        </Collapse>
+                    </div>
+                    <LoginForm modal={this.state.modal} toggleModal={this.toggleModal} login={this.props.login}  handleLogin={this.handleLogin}/>
+                    <RegisterForm modal={this.state.modal} toggleModal={this.toggleModal} register={this.props.register} availableUName={this.props.availableUName} loginState={this.props.loginState} />
+                    <ForgetPassword modal={this.state.modal} toggleModal={this.toggleModal} forgetPassword={this.props.forgetPassword}/>
+                    <ChangePassword modal={this.state.modal} toggleModal={this.toggleModal} changePassword={this.props.changePassword}/>
+                    <VerifyUser modal={this.state.modal} toggleModal={this.toggleModal} verifyUser={this.props.verifyUser}/>
+                    <ResendOTP modal={this.state.modal} toggleModal={this.toggleModal} resendOTP={this.props.resendOTP}/>
+                </Navbar>
+                <Jumbotron>
+                    <div className="container">
+                        <div className="row row-header">
+                            <div className="col-12 col-sm-6">
+                                <h1>Restaurant Blue Grass</h1>
+                                <p>We take inspiration from the World's best cuisines, and create a unique fusion experience. Our lipsmacking creations will tickle your culinary senses!</p>
+                            </div>
+                        </div>
+                    </div>
+                </Jumbotron>
+                
+            </div>
