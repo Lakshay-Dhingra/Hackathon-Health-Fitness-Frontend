@@ -120,4 +120,12 @@ header::before
     {
         margin-left:-2.5vw;
     }
+    #features_section .feature
+    {
+        display: flex;
+    }
+    #features_section #feature_text
+    {
+        order:-1;
+    }
 }
