@@ -3,9 +3,10 @@ import {Route,Switch,Redirect,withRouter} from 'react-router-dom'
 
 import { connect } from 'react-redux';
 import {actions} from 'react-redux-form'
-import{TransitionGroup,CSSTransition} from 'react-transition-group'
+// import{TransitionGroup,CSSTransition} from 'react-transition-group'
 import Header from './HeaderComponent'
 import Home from './HomeComponent'
+import Profile from './ProfileComponent';
 const mapDispatchToProps=(dispatch)=>({})
 const mapStateToProps=(state)=>{return{}}
 class Main extends Component {
@@ -22,13 +23,12 @@ class Main extends Component {
       return(
         <div>
           <Header/>
-          <Home/>
+          <Profile/>
         </div>
       )
     }
-    renderHome() {
-      
-  
+    renderHome()
+    {
       return (
         <div>
           <Header/>
