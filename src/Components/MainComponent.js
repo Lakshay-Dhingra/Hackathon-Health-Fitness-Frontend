@@ -3,10 +3,12 @@ import {Route,Switch,Redirect,withRouter} from 'react-router-dom'
 
 import { connect } from 'react-redux';
 import {actions} from 'react-redux-form'
-import{TransitionGroup,CSSTransition} from 'react-transition-group'
+// import{TransitionGroup,CSSTransition} from 'react-transition-group'
 import Header from './HeaderComponent'
 import Home from './HomeComponent'
 import { login, logout, register } from '../redux/ActionCreator';
+
+import Profile from './ProfileComponent';
 const mapDispatchToProps=(dispatch)=>({
   login:(username,password)=>(dispatch(login(username,password))),
   logout:()=>(dispatch(logout())),
@@ -34,13 +36,12 @@ class Main extends Component {
       return(
         <div>
           <Header/>
-          <Home/>
+          <Profile/>
         </div>
       )
     }
-    renderHome() {
-      
-  
+    renderHome()
+    {
       return (
         <div>
           <Header/>

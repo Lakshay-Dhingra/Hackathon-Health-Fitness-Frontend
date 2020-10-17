@@ -1,16 +1,15 @@
+/* Common CSS */
 html
 {
     scroll-behavior: smooth;
 }
-
 *
 {
     padding:0;
     margin:0;
     box-sizing: border-box;
 }
-
-header::before
+.homebg::before
 {
     background-image: url("./images/main_bg.jpg");
     /* url('../images/main_bg.jpg'); */
@@ -25,14 +24,10 @@ header::before
     height: 100%;
     z-index: -1;
     opacity: 0.6;
-} 
-
-/* body
-{
-    background: url('./images/welcome_bg.jpg');
-} */
+}
 
 
+/* Navbar */
 #main_navbar
 {
     background-color: transparent;
@@ -64,6 +59,8 @@ header::before
     color: rgba(0,0,0,.7);
 }
 
+
+/* Landing Page CSS */
 .main_section .jumbotron
 {
     background: none;
@@ -78,25 +75,134 @@ header::before
 #features_section .feature
 {
     height:90vh;
-    padding:2vh 1vw;
+    padding:2vh 0vw;
 }
-
+#features_section #feature_image_odd
+{
+    /* border: solid; */
+    padding:8vh 5vw 8vh 2vw;
+}
+#features_section #feature_image_even
+{
+    /* border: solid; */
+    padding:8vh 0.5vw 8vh 7vw;
+}
 #features_section .jumbotron
 {
     background: none;
     font-family: 'Domine', serif;
+    text-align: center;
     /* border: solid; */
 }
 #features_section .jumbotron h2
 {
-    padding: 10vh 0vw;
+    padding: 10vh 2vw;
     font-size: 2.5em;
-    text-align: center;
 }
 #features_section .jumbotron p
 {
     font-size: 1.2em;
     padding:0vh 1vw;
+}
+
+
+/* Contact Section */
+#contact_section
+{
+    border: solid;
+    text-align: center;
+    font-family: 'Domine', serif;
+    padding:5vh 8vw;
+    background-color: rgb(32, 32, 56);
+    color: rgb(200,200,200);
+}
+#contact_section h2
+{
+    font-weight: 600;
+    font-size: 2.2em;
+    margin:5vh 0vh;
+}
+#contact_section .contact_section_para
+{
+    font-size: 1.5em;
+    margin-bottom: 6vh;
+}
+
+#contact_section .contact_icon_description
+{
+    font-size: 1.2em;
+    margin-bottom: 6vh;
+    margin-top: 3vh;
+}
+#contact_section .contact_icon_description a
+{
+    text-decoration: none;
+    color:inherit;
+}
+
+
+/* Profile Page CSS */
+#main_profile
+{
+    width:88vw;
+    padding:5vh 0vh;
+    margin:0vh auto;
+}
+
+#profile_head
+{
+    padding-top:8vh;
+    background-color: OldLace;
+    border-radius: 10px;
+}
+
+#profile_image img
+{
+    display:block; 
+    height:26vh; 
+    width: 12vw; 
+    margin:0vh auto;
+    border: solid;
+    border-radius: 10px;
+}
+#profile_head button
+{
+    margin:2vh 0vw;
+}
+
+#profile_body
+{
+    width:88vw;
+    margin:2vh auto;
+}
+#profile_body #left_profile_section
+{
+    padding:2vh 2vw 2vh 1vw;
+    /* border:solid; */
+}
+#profile_body #left_profile_section div
+{
+    /* border:solid; */
+    background-color: oldlace;
+    padding: 3vh 2vw;
+}
+#profile_body #left_profile_section h3
+{
+    font-size: 1.5em;
+    font-weight: 600;
+    margin:2vh 0vw;
+    color: rgb(69, 69, 69);
+}
+
+#profile_body label
+{
+    font-size: 1.5em;
+    font-weight: 600;
+    color: rgb(69, 69, 69);
+}
+#profile_body input
+{
+    font-size: 1.3em;
 }
 
 /* For Responsiveness */
@@ -108,11 +214,19 @@ header::before
     }
     .main_section .jumbotron h1
     {
-        font-size: 2em;
+        font-size: 2.2em;
     }
     .main_section .jumbotron p
     {
         font-size: 1.5em;
+    }
+    #features_section .feature
+    {
+        display: flex;
+    }
+    #features_section #feature_text
+    {
+        order:-1;
     }
 }
 @media only screen and (max-width: 576px)
