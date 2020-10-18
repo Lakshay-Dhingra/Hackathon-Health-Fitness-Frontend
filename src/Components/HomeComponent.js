@@ -69,35 +69,9 @@ const FeatureSection=(props)=>{
                 </div>
             </div>
             <div id="feature_image_even" class="col-12 col-lg-6 row">
-                <img src="../images/section_img1.jpg" class="img-fluid" alt="Daily Tasks"/>
+                <img src="../images/section_img4.jpg" class="img-fluid" alt="Daily Tasks"/>
             </div>
         </section>
-        </section>
-    )
-}
-const ContactSection=(props)=>{
-    return(
-        <section id="contact_section">
-            <h2>Contact Us</h2>
-            <div class="contact_section_para">Connect With Us On Social Media Platforms And Be A Part Of Fitness Community. In Case You Are Facing Any Issues Or Want To Give Us Any Feedback, Feel Free To Call On Our Helpline Number Or Send Us An Email And We Will Get Back To You As Soon As Possible!</div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-3 contact_icon">
-                    <i class="fa fa-phone fa-3x"></i>
-                    <div class="contact_icon_description">+91 XXX XXX XXXX</div>
-                </div>
-                <div class="contact-lg-3 contact_icon">
-                    <i class="fa fa-envelope fa-3x"></i>
-                    <div class="contact_icon_description"><a class="d-block" href="mailto:FitNFineXYZ@example.com">FitNFineXYZ@example.com</a></div>
-                </div>
-                <div class="col-lg-3 contact_icon">
-                    <i class="fa fa-phone fa-3x"></i>
-                    <div class="contact_icon_description">+91 XXX XXX XXXX</div>
-                </div>
-                <div class="contact-lg-3 contact_icon">
-                    <i class="fa fa-envelope fa-3x"></i>
-                    <div class="contact_icon_description"><a class="d-block" href="mailto:FitNFineXYZ@example.com">FitNFineXYZ@example.com</a></div>
-                </div>
-            </div>
         </section>
     )
 }
@@ -109,7 +83,6 @@ class Home extends Component{
                 <HomebgSection/>
                 <MainSection hello={'world'}/>
                 <FeatureSection/>
-                <ContactSection/>
             </Fragment>
         )
     }

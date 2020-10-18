@@ -32,7 +32,7 @@ class Profile extends Component{
                         <section id="left_profile_section" class="col-3">
                             <div>
                                 <h3>About Me:</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. In eveniet consequuntur deleniti aperiam facere! Unde fugit officiis velit reiciendis quasi! Nemo omnis a assumenda ad optio rem eos vel laborum natus! Iure atque omnis quasi veritatis reiciendis ullam culpa, asperiores voluptate consectetur ea obcaecati ut odio a natus quod itaque!</p>
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde fugit officiis velit reiciendis quasi! Nemo omnis a assumenda ad optio rem eos vel laborum natus! Iure atque omnis quasi veritatis reiciendis ullam culpa, asperiores voluptate consectetur ea obcaecati ut odio a natus quod itaque!</p>
                                 <h3>Fitness Goal:</h3>
                                 <p>In eveniet consequuntur deleniti aperiam facere! Unde fugit officiis velit reiciendis quasi!</p>
                             </div>

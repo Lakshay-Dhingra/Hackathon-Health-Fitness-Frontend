@@ -7,8 +7,9 @@ import {actions} from 'react-redux-form'
 import Header from './HeaderComponent'
 import Home from './HomeComponent'
 import { login, logout, register, x } from '../redux/ActionCreator';
-
 import Profile from './ProfileComponent';
+import Activity from './ActivityComponent';
+import Footer from './FooterComponent';
 import { Button } from 'reactstrap';
 const mapDispatchToProps=(dispatch)=>({
   login:(username,password)=>(dispatch(login(username,password))),
@@ -59,7 +60,18 @@ class Main extends Component {
       console.log(err)
     })
     }
-    render(){
+
+    renderActivity(){
+      return(
+        <Fragment>
+        <Header/>
+        <Activity/>
+        <Footer/>
+        </Fragment>
+      )
+    }
+
+    renderLogin(){
       // console.log(this.props.Auth)
       return(
         <Fragment>
@@ -72,19 +84,21 @@ class Main extends Component {
     }
     renderProfile(){
       return(
-        <div>
+        <Fragment>
           <Header login={this.props.login}/>
           <Profile/>
-        </div>
+          <Footer/>
+        </Fragment>
       )
     }
-    renderHome()
+    render()
     {
       return (
-        <div>
+        <Fragment>
           <Header/>
           <Home/>
-        </div>
+          <Footer/>
+        </Fragment>
         
       );
     }
