@@ -16,6 +16,31 @@ export const Auth=(state=initState,action)=>{
                 user:null,
                 loged:false
             })
+        case ActionTypes.ADDPROFILEPIC:
+            return({
+                ...state,
+                user:action.payload
+            })
+        case ActionTypes.DELETEPROFILEPIC:
+            return({
+                ...state,
+                user:action.payload
+            })
+        case ActionTypes.EDITPROFILEPIC:
+            return({
+                ...state,
+                user:action.payload
+            })
+        case ActionTypes.EDITPROFILE:
+            return({
+                ...state,
+                user:action.payload
+            })
+        case ActionTypes.TODO:
+            return({
+                ...state,
+                user:action.payload
+            })
         default:
             return state
     }

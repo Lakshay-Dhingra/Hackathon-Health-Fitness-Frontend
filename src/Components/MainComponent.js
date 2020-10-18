@@ -2,11 +2,11 @@ import React, { Component, Fragment } from 'react';
 import {Route,Switch,Redirect,withRouter} from 'react-router-dom'
 
 import { connect } from 'react-redux';
-import {actions} from 'react-redux-form'
+import {actions, Control, LocalForm} from 'react-redux-form'
 // import{TransitionGroup,CSSTransition} from 'react-transition-group'
 import Header from './HeaderComponent'
 import Home from './HomeComponent'
-import { login, logout, register, x } from '../redux/ActionCreator';
+import { AddProfilePic, DeleteProfilePic, EditProfilePic, login, logout, register, x } from '../redux/ActionCreator';
 
 import Profile from './ProfileComponent';
 import { Button } from 'reactstrap';
@@ -14,7 +14,10 @@ const mapDispatchToProps=(dispatch)=>({
   login:(username,password)=>(dispatch(login(username,password))),
   logout:()=>(dispatch(logout())),
   register:(username,password)=>(dispatch(register(username,password))),
-  x:()=>(dispatch(x()))
+  x:()=>(dispatch(x())),
+  AddProfilePic:(pic)=>(dispatch(AddProfilePic(pic))),
+  EditProfilePic:(pic,userId)=>(dispatch(EditProfilePic(pic,userId))),
+  DeleteProfilePic:(pic,userId)=>(dispatch(DeleteProfilePic(pic,userId)))
 })
 const mapStateToProps=(state)=>{return{
   Auth:state.Auth
@@ -25,10 +28,43 @@ class Main extends Component {
       this.login=this.login.bind(this)
       this.logout=this.logout.bind(this)
       this.get=this.get.bind(this)
+      this.addProfilePic=this.addProfilePic.bind(this)
+      this.editProfilePic=this.editProfilePic.bind(this)
+      this.deleteProfilePic=this.deleteProfilePic.bind(this)
       this.state={
         response:"asdf",
         r2:'sd'
       }
+    }
+    addProfilePic(pic){
+      this.props.AddProfilePic(pic)
+      .then(res=>{
+        console.log(res)
+      },err=>{
+        if(err instanceof Promise)
+          err.then((err)=>console.log(err))
+        else console.log(err)
+      })
+    }
+    editProfilePic(pic,userId){
+      this.props.EditProfilePic(pic,userId)
+      .then(res=>{
+        console.log(res)
+      },err=>{
+        if(err instanceof Promise)
+          err.then((err)=>console.log(err))
+        else console.log(err)
+      })
+    }
+    deleteProfilePic(pic,userId){
+      this.props.DeleteProfilePic(pic,userId)
+      .then(res=>{
+        console.log(res)
+      },err=>{
+        if(err instanceof Promise)
+          err.then((err)=>console.log(err))
+        else console.log(err)
+      })
     }
     login(){
       this.props.login('devanshgl55@gmail.com','qwertypopo')
@@ -52,12 +88,14 @@ class Main extends Component {
     }
     get(){
 
-    this.props.x()
-    .then(res=>{
-      console.log(res)
-    },err=>{
-      console.log(err)
-    })
+      this.props.x()
+      .then(res=>{
+        console.log(res)
+      },err=>{
+        if(err instanceof Promise)
+          err.then((err)=>console.log(err))
+        else console.log(err)
+      })
     }
     render(){
       // console.log(this.props.Auth)
@@ -67,6 +105,16 @@ class Main extends Component {
           <Button onClick={this.login}>Login</Button>
           <Button onClick={this.logout}>Logout</Button>
           <Button onClick={this.get}>show user</Button>
+          <LocalForm onSubmit={(values,e)=>{
+            //TODO submit form
+            console.log(values)
+            this.editProfilePic(values,this.props.Auth.user.profilePic)
+          }}>
+            Add Image
+            <Control.file type='file' model='.profilePic'/>
+            <Button type='submit'/>
+          </LocalForm>
+          <br/>
         </Fragment>
       )
     }
