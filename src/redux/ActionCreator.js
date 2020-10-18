@@ -62,7 +62,7 @@ const handleResponse=(response)=>{
     return new Promise((resolve,reject)=>{
         if(response.ok)
             response.json()
-            .then(res=>resolve(res))
+            .then(res=>{resolve(res)})
         else
             response.json()
             .then(res=>{reject(res)})
@@ -71,8 +71,11 @@ const handleResponse=(response)=>{
 const handleTokenExpire=(err,dispatch,next)=>{
     let errMsg=resolveError(err)
     if(errMsg==='Retry')
-        return (RefreshToken())
-        .then((res)=>(next())
+        return RefreshToken()
+        .then((res)=>{
+            return dispatch(next())
+            .then(res=>res,err=>err)
+        }
         ,err=>{
             destroyCookie()
             return 'You are logged out.Please try again'
@@ -104,12 +107,16 @@ const logoutAction = ()=>({
     type: ActionTypes.LOGOUT,
     payload:{}
 })
+const ProfileAction = (actiontype,user) => ({
+    type: actiontype,
+    payload: user
+});
+
 export const login=(username,password)=>(dispatch)=>{
     return fetch(BaseUrl+'users/login',{
         method:'POST',
         body:JSON.stringify({username:username,password:password}),
-        headers:AuthHeader(),
-        credentials:'include'
+        headers:AuthHeader()
     })
     .then(response=>handleResponse(response))
     .then((res)=>{
@@ -132,14 +139,20 @@ export const logout=()=>(dispatch)=>{
         destroyCookie()
         dispatch(logoutAction(res.User))
         return res.status
-    },err=>handleTokenExpire(err))
+    },err=>{
+        let e=handleTokenExpire(err,dispatch,x)
+        if(e instanceof Promise){
+            return e.then(res=>{return res})
+        }
+        else
+            return e
+    })
 }
 export const register=(username,password)=>(dispatch)=>{
     return fetch(BaseUrl+'users/register',{
         method:'POST',
         body:JSON.stringify({username:username,password:password}),
         headers:AuthHeader(),
-        credentials:'include'
     })
     .then(response=>handleResponse(response))
     .then((res)=>{
@@ -158,10 +171,103 @@ export const x=()=>(dispatch)=>{
         return res
     },err=>{
         let e=handleTokenExpire(err,dispatch,x)
-        if(e instanceof Promise)
-            return e.then(res=>res)
+        if(e instanceof Promise){
+            return e.then(res=>{return res})
+        }
         else
             return e
     })
-    .then(res=>res)
+}
+export const AddProfilePic=(pic)=>(dispatch)=>{
+    let fd=new FormData();
+    fd.append('profilePic',pic.profilePic[0])
+    return fetch(BaseUrl+'users/profilePic',{
+        method:'POST',
+        body:fd,
+        headers:{"authorization":`Bearer ${cookie.load('accessToken')}`},
+    })
+    .then(response=>handleResponse(response))
+    .then((res)=>{
+        dispatch(ProfileAction(ActionTypes.ADDPROFILEPIC,res.user))
+        return 'ProfilePic added';
+    },(err)=>{
+        let e=handleTokenExpire(err,dispatch,AddProfilePic)
+        if(e instanceof Promise){
+            return e.then(res=>{return res})
+        }
+        else
+            return e
+    })
+}
+export const EditProfilePic=(pic,oldImgPath)=>(dispatch)=>{
+    let fd=new FormData();
+    fd.append('profilePic',pic.profilePic[0])
+    return fetch(BaseUrl+`users/profilePic/${oldImgPath}`,{
+        method:'PUT',
+        body:fd,
+        headers:{"authorization":`Bearer ${cookie.load('accessToken')}`},
+    })
+    .then(response=>handleResponse(response))
+    .then((res)=>{
+        dispatch(ProfileAction(ActionTypes.EDITPROFILEPIC,res.user))
+        return 'ProfilePic updated';
+    },(err)=>{
+        let e=handleTokenExpire(err,dispatch,EditProfilePic)
+        if(e instanceof Promise){
+            return e.then(res=>{return res})
+        }
+        else
+            return e
+    })
+}
+export const DeleteProfilePic=(pic,oldImgPath)=>(dispatch)=>{
+    let fd=new FormData();
+    fd.append('profilePic',pic.profilePic[0])
+    return fetch(BaseUrl+`users/profilePic/${oldImgPath}`,{
+        method:'DELETE',
+        body:fd,
+        headers:{"authorization":`Bearer ${cookie.load('accessToken')}`},
+    })
+    .then(response=>handleResponse(response))
+    .then((res)=>{
+        dispatch(ProfileAction(ActionTypes.DELETEPROFILEPIC,res.user))
+        return 'Profile Pic deleted';
+    },(err)=>{
+        let e=handleTokenExpire(err,dispatch,DeleteProfilePic)
+        if(e instanceof Promise){
+            return e.then(res=>{return res})
+        }
+        else
+            return e
+    })
+}
+
+export const EditProfile=(user)=>(dispatch)=>{
+    //require whole user object
+    return fetch(BaseUrl+`users/profile/${user._id}/edit`,{
+        method:'PUT',
+        body:JSON.stringify({...user}),
+        headers:AuthHeader(),
+    })
+    .then(response=>handleResponse(response))
+    .then((res)=>{
+        dispatch(ProfileAction(ActionTypes.EDITPROFILE,res.user))
+        return 'Profile updated';  
+    },(err)=>{
+        return resolveError(err)
+    })
+}
+export const Todo=(formData,userId)=>(dispatch)=>{
+    return fetch(BaseUrl+`todo/${userId}`,{
+        method:'PUT',
+        body:JSON.stringify({...formData}),
+        headers:AuthHeader(),
+    })
+    .then(response=>handleResponse(response))
+    .then((res)=>{
+        dispatch(ProfileAction(ActionTypes.TODO,res.user))
+        return 'TODO Done';  
+    },(err)=>{
+        return resolveError(err)
+    })
 }
