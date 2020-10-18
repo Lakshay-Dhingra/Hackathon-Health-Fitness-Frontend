@@ -48,22 +48,34 @@ class EditProfile extends Component{
                                 // if(this.state.image==null)
                                 //     alert('Please select a image')
                                 // else{
-                                //     this.props.handleDish(values,this.state)
+                                //     this.props.handleEditProfile(values,this.state)
                                 //     this.props.toggleModal('editComment')
                                 // }
+                                this.props.handleEditProfile(values)
                                 console.log(values)
                                 e.preventDefault();
                             }
                         }>
-                        {/* <Row className='form-group'>
-                            <Col>                                
+                            <LocalForm onSubmit={()=>{
+                                alert('hlo');
+                            }}>
+                        <Row className='form-group'>
+                            <Col>
                                 <Label htmlFor="image">Images:</Label>
                                 <Control.file model='.image' id='image' name='image'
                                     onChange={(e)=>{this.handleChange(e);this.setState({file:URL.createObjectURL(e.target.files[0])})}} 
                                 />
                                 <img style={{height:"100px",width:'100px'}} src={this.state.file} alt='preview dish'/>
                             </Col>
-                        </Row> */}
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button type="submit" color="primary">
+                                    Change Profile Pic
+                                </Button>
+                            </Col>
+                        </Row>
+                        </LocalForm>
                         <Row className='form-group'>
                             <Col>
                                 <Label htmlFor={'username'}>Email:</Label>
@@ -165,7 +177,7 @@ class Profile extends Component{
     }
     accessEditProfile(){
         return(
-            <EditProfile modal={this.state.modal} toggleModal={()=>this.setState(!this.state.modal)} handleDish={this.handleEditProfile} user={this.props.user}/>
+            <EditProfile modal={this.state.modal} toggleModal={()=>this.setState(!this.state.modal)} handleEditProfile={this.handleEditProfile} user={this.props.user}/>
         )
     }
     renderLakshay(){
@@ -262,7 +274,7 @@ class Profile extends Component{
                 :
                 <Fragment>
                     <Button onClick={()=>this.setState({modal:!this.state.modal})}>Edit profile</Button>
-                <EditProfile modal={this.state.modal} toggleModal={()=>this.setState({modal:!this.state.modal})} handleDish={this.handleEditProfile} user={this.props.user}/>
+                <EditProfile modal={this.state.modal} toggleModal={()=>this.setState({modal:!this.state.modal})} handleEditProfile={this.handleEditProfile} user={this.props.user}/>
                 </Fragment>
                 }
             </Fragment>
