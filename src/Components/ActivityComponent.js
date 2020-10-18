@@ -3,21 +3,20 @@ import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Jumbotron, 
 import { NavLink } from 'react-router-dom';
 import { LocalForm, Control, Errors} from 'react-redux-form';
 
-const FormElement=({type,name,label,dish})=>{
+const MyFormElement=({type,name,label,min,max,placeholder})=>{
     return(
         <Row className='form-group'>
-            <Col>
-                <Label htmlFor={name}>{label}</Label>
+            {/* <Col> */}
+                <Label className="col-sm-5 col-form-label" htmlFor={name}>{label}</Label>
                 <Control.text type={type} model={`.${name}`} id={name} name={name}
-                    placeholder={name} className='form-control' value={dish[name]}
-                    onChange={(e)=>dish[name]=e.target.value}
-                    required/>
-            </Col>
+                    placeholder={placeholder} className='form-control col-sm-7' 
+                    min={min} max={max}/>
+            {/* </Col> */}
         </Row>
     )
 }
 
-const MyFormElement=(props)=>{
+const MyFormElements=(props)=>{
     return(
     <div class="form-group row">
         <label for="inputXYZ" class="col-sm-5 col-form-label">Jogging Time:</label>
@@ -39,25 +38,33 @@ class Activity extends Component{
                     <section class="row">
                         <section class="left_activity col-lg-6">
                             <h2>Activity Tracker</h2>
-                            <form class="form_fields">
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            </form>
+                                <LocalForm onSubmit={(values,e)=>{
+                                    console.log(values)
+                                    e.preventDefault();
+                                }}
+                                className='form_fields'
+                                >
+                            <MyFormElement type='number' name='jogging' label='Jogging :' min={0} max={180} placeholder="Time in minutes"/>
+                            <MyFormElement type='number' name='sprint' label='Sprint :' min={0} max={180} placeholder="Time in minutes"/>
+                            <MyFormElement type='number' name='jogging' label='Jogging :' min={0} max={180} placeholder="Time in minutes"/>
+                            <MyFormElement type='number' name='jogging' label='Jogging :' min={0} max={180} placeholder="Time in minutes"/>
+                            <MyFormElement type='number' name='jogging' label='Jogging :' min={0} max={180} placeholder="Time in minutes"/>
+                            <MyFormElement type='number' name='jogging' label='Jogging :' min={0} max={180} placeholder="Time in minutes"/>
+                            {/* TODO Add calories here and delete below */}
+                            <Row>
+                                <Col>
+                                    <Button type="submit" color="primary">
+                                        Add/Edit Dish
+                                    </Button>
+                                </Col>
+                            </Row>
+                            </LocalForm>
                         </section>
 
                         <section class="right_calorie col-lg-6">
                             <h2>Calorie Tracker</h2>
                             <form class="form_fields">
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            <MyFormElement/>
-                            <MyFormElement/>
+                            <MyFormElement />
                             </form>
                         </section>
                     </section>

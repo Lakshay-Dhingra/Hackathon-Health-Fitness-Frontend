@@ -2,9 +2,173 @@ import React,{Component, Fragment, useState} from 'react'
 import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Jumbotron, Modal, ModalBody, ModalHeader, Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { LocalForm, Control, Errors} from 'react-redux-form';
+const FormElement=({type,name,label,user})=>{
+    return(
+        <Row className='form-group'>
+            <Col>
+                <Label htmlFor={name}>{label}</Label>
+                <Control.text type={type} model={`.${name}`} id={name} name={name}
+                    placeholder={name} className='form-control' value={user[name]}
+                    onChange={(e)=>user[name]=e.target.value}
+                    required
+                />
+            </Col>
+        </Row>
+    )
+}
+class EditProfile extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            ...props.user,
+            image:null
+        }
+        this.handleChange = this.handleChange.bind(this)
+    }
+    handleChange(event) {
+        if(event.target.name==='image')
+            this.setState({
+                'image':event.target.files[0]
+            })
+        else
+            this.setState({
+            [event.target.name]: event.target.value
+            })
+      }
+    render(){
+        return(
+
+        <Modal isOpen={this.props.modal} 
+            toggle={()=>this.props.toggleModal()}
+            >
+                <ModalHeader>Edit Profile</ModalHeader>
+                <ModalBody>
+                    <LocalForm
+                    onSubmit={(values,e)=>{
+                                // if(this.state.image==null)
+                                //     alert('Please select a image')
+                                // else{
+                                //     this.props.handleDish(values,this.state)
+                                //     this.props.toggleModal('editComment')
+                                // }
+                                console.log(values)
+                                e.preventDefault();
+                            }
+                        }>
+                        {/* <Row className='form-group'>
+                            <Col>                                
+                                <Label htmlFor="image">Images:</Label>
+                                <Control.file model='.image' id='image' name='image'
+                                    onChange={(e)=>{this.handleChange(e);this.setState({file:URL.createObjectURL(e.target.files[0])})}} 
+                                />
+                                <img style={{height:"100px",width:'100px'}} src={this.state.file} alt='preview dish'/>
+                            </Col>
+                        </Row> */}
+                        <Row className='form-group'>
+                            <Col>
+                                <Label htmlFor={'username'}>Email:</Label>
+                                <Control.text  model={`.${'username'}`} id={'username'} name={'username'}
+                                    placeholder={'username'} className='form-control' value={this.state['username']}
+                                    readOnly
+                                />
+                            </Col>
+                        </Row>
+                        <FormElement name='name' label='Name:' user={this.state}/>                            
+                        <Row className='form-group'>
+                            <Col>
+                                <Label htmlFor={'age'}>Age:</Label>
+                                <Control.text type='number' min={1} model={`.${'age'}`} id={'age'} name={'age'}
+                                    placeholder={'age'} className='form-control' value={this.state['age']}
+                                    onChange={(e)=>this.setState({'age':e.target.value})}
+                                    required
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='form-group'>
+                            <Col>
+                                Gender:&nbsp;
+                                <Label htmlFor="male">Male</Label>&nbsp;
+                                <Control type='radio' model='.gender' id='gender' name='gender'
+                                    value={true}
+                                    checked={this.state.gender===true}
+                                    onChange={()=>this.setState({gender:true})}
+                                />&nbsp;&nbsp;
+                                <Label htmlFor="female">Female</Label>&nbsp;
+                                <Control type='radio' model='.gender' id='female' name='gender'
+                                    value={false} 
+                                    checked={this.state.gender===false}
+                                    onChange={()=>this.setState({gender:false})}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='form-group'>
+                            <Col>
+                                <Label htmlFor={'height'}>Height:</Label>
+                                <Control.text type='number' min={1} model={`.${'height'}`} id={'height'} name={'height'}
+                                    placeholder={'height (in cm)'} className='form-control' value={this.state['height']}
+                                    onChange={(e)=>this.setState({'height':e.target.value})}
+                                    required
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='form-group'>
+                            <Col>                                
+                                <Label htmlFor="about_me">Description:</Label>
+                                <Control.textarea model='.about_me' id='about_me' name='about_me' 
+                                    required 
+                                    value={this.state.about_me}
+                                    onChange={this.handleChange}
+                                    className='form-control' 
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='form-group'>
+                            <Col>                                
+                                <Label htmlFor="fitness_goal">Fitness Ggoal:</Label>
+                                <Control.textarea model='.fitness_goal' id='fitness_goal' name='fitness_goal' 
+                                    value={this.state.fitness_goal}
+                                    onChange={this.handleChange}
+                                    className='form-control' 
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button type="submit" color="primary">
+                                    Change Profile
+                                </Button>
+                            </Col>
+                        </Row>
+                    </LocalForm>
+                </ModalBody>
+            </Modal>
+        )
+    }
+}
 
 class Profile extends Component{
-    render(){
+    constructor(props){
+        super(props)
+        this.state={
+            modal:false
+        }
+        this.handleEditProfile=this.handleEditProfile.bind(this)
+    }
+    handleEditProfile(values,dish){
+        console.log(dish)
+        console.log(values)
+        let newDish={...dish,...values}
+        delete newDish.file
+        console.log(newDish)
+        // this.props.addDish(dish);
+        alert('Profile Changed')
+    }
+    accessEditProfile(){
+        return(
+            <EditProfile modal={this.state.modal} toggleModal={()=>this.setState(!this.state.modal)} handleDish={this.handleEditProfile} user={this.props.user}/>
+        )
+    }
+    renderLakshay(){
         return (
             <Fragment>
                 <div id="main_profile">
@@ -86,6 +250,21 @@ class Profile extends Component{
                         </section>
                     </section>
                 </div>
+            </Fragment>
+        )
+    }
+    render(){
+        console.log(this.props.user)
+        return(
+            <Fragment>
+                
+                {this.props.user===null?<h1>Login First</h1>
+                :
+                <Fragment>
+                    <Button onClick={()=>this.setState({modal:!this.state.modal})}>Edit profile</Button>
+                <EditProfile modal={this.state.modal} toggleModal={()=>this.setState({modal:!this.state.modal})} handleDish={this.handleEditProfile} user={this.props.user}/>
+                </Fragment>
+                }
             </Fragment>
         )
     }

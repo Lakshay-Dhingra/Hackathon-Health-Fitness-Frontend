@@ -6,12 +6,8 @@ import {actions, Control, LocalForm} from 'react-redux-form'
 // import{TransitionGroup,CSSTransition} from 'react-transition-group'
 import Header from './HeaderComponent'
 import Home from './HomeComponent'
-<<<<<<< HEAD
-import { login, logout, register, x } from '../redux/ActionCreator';
-=======
 import { AddProfilePic, DeleteProfilePic, EditProfilePic, login, logout, register, x } from '../redux/ActionCreator';
 
->>>>>>> 43a0786709c65504299cf2b078c968ece6a13164
 import Profile from './ProfileComponent';
 import Activity from './ActivityComponent';
 import Footer from './FooterComponent';
@@ -114,7 +110,7 @@ class Main extends Component {
       )
     }
 
-    renderLogin(){
+    renders(){
       // console.log(this.props.Auth)
       return(
         <Fragment>
@@ -135,16 +131,17 @@ class Main extends Component {
         </Fragment>
       )
     }
-    renderProfile(){
+    render(){
       return(
         <Fragment>
+          <Button onClick={this.login}>Login</Button>
           <Header login={this.props.login}/>
-          <Profile/>
+          <Profile user={this.props.Auth.user}/>
           <Footer/>
         </Fragment>
       )
     }
-    render()
+    renderDone()
     {
       return (
         <Fragment>
